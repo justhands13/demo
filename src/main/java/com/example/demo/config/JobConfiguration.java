@@ -1,18 +1,19 @@
 package com.example.demo.config;
 
 import com.example.demo.model.Review;
+import com.example.demo.processor.ReviewProcessor;
+import com.example.demo.reader.CsvReviewReader;
+import com.example.demo.writer.ReviewWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
 @Configuration
@@ -40,14 +41,8 @@ public class JobConfiguration {
 
     @Bean
     public FlatFileItemReader<Review> itemReader() {
-        return new FlatFileItemReaderBuilder<Review>()
-                .linesToSkip(1)
-                .name("ReviewItemReader")
-                .resource(new ClassPathResource("csv/series-review.csv"))
-                .delimited()
-                .names(new String[] {"name", "criticScore", "audienceScore"})
-                .targetType(Review.class)
-                .build();
+        CsvReviewReader csvReviewReader= new CsvReviewReader();
+        return csvReviewReader.read();
     }
 
     @Bean
@@ -57,12 +52,7 @@ public class JobConfiguration {
 
     @Bean
     public FlatFileItemWriter<Review> itemWriter() {
-        return new FlatFileItemWriterBuilder<Review>()
-                .name("personItemWriter")
-                .resource(new FileSystemResource("src/main/resources/output/billboard.txt"))
-                .delimited()
-                .delimiter(",")
-                .names(new String[] {"name", "criticScore", "audienceScore"})
-                .build();
+        ReviewWriter reviewWriter = new ReviewWriter();
+        return reviewWriter.write();
     }
 }

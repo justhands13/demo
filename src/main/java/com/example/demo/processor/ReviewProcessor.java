@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.processor;
 
 import com.example.demo.model.Review;
 import org.springframework.batch.item.ItemProcessor;
