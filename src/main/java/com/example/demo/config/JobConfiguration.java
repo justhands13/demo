@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.listener.CustomSkipListener;
 import com.example.demo.model.Review;
 import com.example.demo.processor.ReviewProcessor;
 import com.example.demo.reader.CsvReviewReader;
@@ -64,6 +65,10 @@ public class JobConfiguration {
                 .reader(itemReader())
                 .processor(itemProcessor())
                 .writer(itemWriter())
+                .faultTolerant()
+                .skip(Exception.class)
+                .skipLimit(10)
+                .listener(new CustomSkipListener())
                 .build();
     }
 

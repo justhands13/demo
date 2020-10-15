@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class ReviewWriter
-        implements ItemWriter<Review>
-{
+public class ReviewWriter implements ItemWriter<Review> {
 
     @Autowired
     private ReviewRepository reviewRepository;
