@@ -6,11 +6,12 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/billboard")
 public class ReviewController {
 
     @Autowired
@@ -19,10 +20,11 @@ public class ReviewController {
     @Autowired
     private Job job;
 
-    @RequestMapping("/billboard")
-    public void launch() throws Exception{
+    @RequestMapping(value = "/param",method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void launch(@RequestParam("param") String name) throws Exception{
         JobParameters jobParameters =new JobParametersBuilder()
-                                        .addString("jobParam", "name")
+                                        .addString("name",name)
                                         .toJobParameters();
         this.jobLauncher.run(job,jobParameters);
     }
