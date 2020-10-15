@@ -22,16 +22,18 @@ public class JobConfiguration {
     @Value("$app.csv.fileHeaders")
     String[] name;
 
+
+
     @Bean
-    public Job convertNamesJob(JobBuilderFactory jobBuilders, StepBuilderFactory stepBuilders) {
-        return jobBuilders.get("firstjob")
-                .start(convertNamesStep(stepBuilders))
+    public Job demoJob(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+        return jobBuilderFactory.get("firstjob")
+                .start(step1(stepBuilderFactory))
                 .build();
     }
 
     @Bean
-    public Step convertNamesStep(StepBuilderFactory stepBuilders) {
-        return stepBuilders.get("csv-to-txt")
+    public Step step1(StepBuilderFactory stepBuilderFactory) {
+        return stepBuilderFactory.get("csv-to-txt")
                 .<Review, Review>chunk(10)
                 .reader(itemReader())
                 .processor(itemProcessor())
