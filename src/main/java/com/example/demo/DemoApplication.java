@@ -6,7 +6,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication
-		(exclude = {DataSourceAutoConfiguration.class})
+//		(
+//		exclude = {DataSourceAutoConfiguration.class}
+//		,scanBasePackages={
+//				"package com.example.demo.config;"
+//				,"package com.example.demo.controller;"
+//				,"package com.example.demo.model;"
+//				,"package com.example.demo.processor;"
+//				,"package com.example.demo.reader;"
+//				,"package com.example.demo.repository;"
+//				,"package com.example.demo.writer;"
+//			}
+//
+//		)
 
 
 public class DemoApplication {

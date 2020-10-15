@@ -1,6 +1,0 @@
-Spartacus,88%,90%
-Beowulf,73%,81%
-Arrow,84%,80%
-The Walking Dead,86%,89%
-Iron Fist,87%,82%
-Stranger Things,88%,92%

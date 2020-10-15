@@ -1,7 +1,11 @@
 package com.example.demo.model;
 
-public class Review {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Review {
+    @Id
     private String name;
 
     private String criticScore;

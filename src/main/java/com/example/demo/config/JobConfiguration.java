@@ -3,11 +3,13 @@ package com.example.demo.config;
 import com.example.demo.model.Review;
 import com.example.demo.processor.ReviewProcessor;
 import com.example.demo.reader.CsvReviewReader;
+import com.example.demo.repository.ReviewRepository;
 import com.example.demo.writer.ReviewWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -16,6 +18,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +26,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Configuration
+@EnableBatchProcessing
 public class JobConfiguration {
 
     @Value("$app.csv.fileHeaders")
@@ -75,8 +79,11 @@ public class JobConfiguration {
     }
 
     @Bean
-    public FlatFileItemWriter<Review> itemWriter() {
-        ReviewWriter reviewWriter = new ReviewWriter();
-        return reviewWriter.write();
-    }
+    public ReviewWriter itemWriter() { return new ReviewWriter(); }
+
+//    @Bean
+//    public FlatFileItemWriter<Review> itemWriter() {
+//        ReviewWriter reviewWriter = new ReviewWriter();
+//        return reviewWriter.write();
+//    }
 }
