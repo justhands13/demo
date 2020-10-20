@@ -7,6 +7,8 @@ public class ReviewProcessor implements ItemProcessor<Review, Review> {
 
     @Override
     public Review process(Review review) throws Exception {
+//        System.out.println(review.getName());
+//        System.out.println("imside processor");
         return review;
     }
 }

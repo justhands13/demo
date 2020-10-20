@@ -7,6 +7,7 @@ import org.springframework.core.io.ClassPathResource;
 
 public class CsvReviewReader {
     public FlatFileItemReader<Review> read() {
+//        System.out.println("csv is read");
         return new FlatFileItemReaderBuilder<Review>()
                 .linesToSkip(1)
                 .name("ReviewItemReader")

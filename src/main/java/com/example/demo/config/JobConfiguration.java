@@ -4,7 +4,6 @@ import com.example.demo.listener.CustomSkipListener;
 import com.example.demo.model.Review;
 import com.example.demo.processor.ReviewProcessor;
 import com.example.demo.reader.CsvReviewReader;
-import com.example.demo.repository.ReviewRepository;
 import com.example.demo.writer.ReviewWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -15,16 +14,16 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.FlatFileItemWriter;
-import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
+import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
+import org.springframework.batch.item.json.JsonFileItemWriter;
+import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 @EnableBatchProcessing
@@ -32,8 +31,6 @@ public class JobConfiguration {
 
     @Value("$app.csv.fileHeaders")
     String[] name;
-
-
 
     @Bean
     public Job demoJob(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
@@ -61,7 +58,7 @@ public class JobConfiguration {
     @Bean
     public Step step2(StepBuilderFactory stepBuilderFactory) {
         return stepBuilderFactory.get("csv-to-txt")
-                .<Review, Review>chunk(10)
+                .<Review, Review>chunk(3)
                 .reader(itemReader())
                 .processor(itemProcessor())
                 .writer(itemWriter())
@@ -86,9 +83,4 @@ public class JobConfiguration {
     @Bean
     public ReviewWriter itemWriter() { return new ReviewWriter(); }
 
-//    @Bean
-//    public FlatFileItemWriter<Review> itemWriter() {
-//        ReviewWriter reviewWriter = new ReviewWriter();
-//        return reviewWriter.write();
-//    }
 }

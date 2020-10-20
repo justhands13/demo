@@ -5,7 +5,7 @@ import org.springframework.batch.core.SkipListener;
 public class CustomSkipListener implements SkipListener {
     @Override
     public void onSkipInRead(Throwable throwable) {
-
+        System.out.println("skipped something");
     }
 
     @Override
